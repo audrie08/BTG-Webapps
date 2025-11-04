@@ -11,11 +11,14 @@ st.set_page_config(
 )
 
 @st.cache_data(ttl=timedelta(hours=1))
-def logo_to_base64(img):
-    """Convert PIL Image to base64 string with caching"""
+def logo_to_base64(_img):
+    """Convert PIL Image to base64 string with caching
+    
+    Note: _img has underscore prefix so Streamlit won't try to hash the PIL Image object
+    """
     try:
         buffered = BytesIO()
-        img.save(buffered, format="PNG")
+        _img.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode()
         st.info(f"✅ Base64 conversion successful! Length: {len(img_str)} characters")
         return img_str
