@@ -20,7 +20,7 @@ def logo_to_base64(img):
 
 @st.cache_resource(ttl=timedelta(hours=24))
 def load_logo(logo_path="cloudeats.png"):
-    """Load logo with caching
+    """Load logo with caching and debug information
     
     Args:
         logo_path: Path to the logo PNG file (default: "cloudeats.png")
@@ -28,11 +28,32 @@ def load_logo(logo_path="cloudeats.png"):
     Returns:
         Base64 encoded string of the logo, or None if file not found
     """
+    import os
+    
+    # Debug: Show current working directory and file list
+    current_dir = os.getcwd()
+    files_in_dir = os.listdir(current_dir)
+    
+    print(f"DEBUG - Current directory: {current_dir}")
+    print(f"DEBUG - Files in directory: {files_in_dir}")
+    print(f"DEBUG - Looking for logo: {logo_path}")
+    print(f"DEBUG - Logo file exists: {os.path.exists(logo_path)}")
+    
     try:
         from PIL import Image
+        
+        # Check if file exists
+        if not os.path.exists(logo_path):
+            print(f"ERROR - Logo file '{logo_path}' not found!")
+            print(f"Available files: {[f for f in files_in_dir if f.endswith(('.png', '.jpg', '.jpeg'))]}")
+            return None
+            
         logo_img = Image.open(logo_path)
+        print(f"SUCCESS - Logo loaded: {logo_img.size}, {logo_img.format}")
         return logo_to_base64(logo_img)
-    except FileNotFoundError:
+        
+    except Exception as e:
+        print(f"ERROR loading logo: {str(e)}")
         return None
 
 def create_navigation(logo_path="cloudeats.png"):
@@ -50,6 +71,18 @@ def create_navigation(logo_path="cloudeats.png"):
     else:
         # Fallback icon if logo file is not found
         logo_html = '<div class="brand-icon-fallback">🍽️</div>'
+        
+        # Show warning to user
+        import os
+        st.error(f"""
+        ⚠️ Logo file not found: `{logo_path}`
+        
+        **Current directory:** `{os.getcwd()}`
+        
+        **Available PNG files:** {[f for f in os.listdir('.') if f.endswith(('.png', '.PNG'))]}
+        
+        **Note:** Check if the filename is exactly `cloudeats.png` (no spaces!)
+        """)
     
     # Simple navigation with logo and text
     st.markdown(f"""
@@ -117,7 +150,7 @@ def create_navigation(logo_path="cloudeats.png"):
             <div class="brand-logo">
                 {logo_html}
             </div>
-            <div class="brand-text">Bites To Go - Commissary Webapps</div>
+            <div class="brand-text">Bites To Go - Webapps</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -348,7 +381,7 @@ with col1:
                 <rect x="3" y="14" width="7" height="7" rx="1"/>
             </svg>
         </div>
-        <h2 class="app-title">Commissary Dashboard</h2>
+        <h2 class="app-title">2025 Commissary Dashboard</h2>
         <p class="app-description">Monitor KPI metrics, production details, machine utilization, and analyze production schedules.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
