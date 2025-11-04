@@ -117,7 +117,7 @@ def create_navigation(logo_path="cloudeats.png"):
             <div class="brand-logo">
                 {logo_html}
             </div>
-            <div class="brand-text">Bites To Go - Webapps</div>
+            <div class="brand-text">Bites To Go - Commissary Webapps</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
