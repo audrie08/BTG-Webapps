@@ -37,16 +37,6 @@ def load_logo(logo_path="cloudeats.png"):
     """
     import os
     
-    # Debug: Show current working directory and file list
-    current_dir = os.getcwd()
-    files_in_dir = os.listdir(current_dir)
-    
-    print(f"DEBUG - Current directory: {current_dir}")
-    print(f"DEBUG - Files in directory: {files_in_dir}")
-    print(f"DEBUG - Looking for logo: {logo_path}")
-    print(f"DEBUG - Logo file exists: {os.path.exists(logo_path)}")
-    print(f"DEBUG - Full path: {os.path.abspath(logo_path)}")
-    
     try:
         from PIL import Image
         
@@ -138,8 +128,8 @@ def create_navigation(logo_path="cloudeats.png"):
     }}
     
     .brand-logo {{
-        width: 70px;
-        height: 70px;
+        width: 80px;
+        height: 80px;
         background: linear-gradient(135deg, #ffd700, #ffa500);
         border-radius: 50%;
         display: flex;
@@ -162,7 +152,7 @@ def create_navigation(logo_path="cloudeats.png"):
     
     .brand-text {{
         font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-        font-size: 24px;
+        font-size: 30px;
         font-weight: 700;
         color: #ffffff;
         letter-spacing: -0.3px;
@@ -186,7 +176,7 @@ def create_navigation(logo_path="cloudeats.png"):
             <div class="brand-logo">
                 {logo_html}
             </div>
-            <div class="brand-text">Bites To Go - Webapps</div>
+            <div class="brand-text">Bites To Go - Consolidated Commissary Webapps</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -352,7 +342,7 @@ st.markdown("""
         width: 100% !important;
         text-decoration: none !important;
         display: inline-block !important;
-        text-align: center !important;
+        text-align: left !important;
     }
     
     div[data-testid="stLinkButton"] > a:hover {
