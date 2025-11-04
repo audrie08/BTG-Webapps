@@ -20,7 +20,6 @@ def logo_to_base64(_img):
         buffered = BytesIO()
         _img.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode()
-        st.info(f"✅ Base64 conversion successful! Length: {len(img_str)} characters")
         return img_str
     except Exception as e:
         st.error(f"❌ Base64 conversion failed: {str(e)}")
@@ -41,9 +40,7 @@ def load_logo(logo_path="cloudeats.png"):
     # List all PNG files
     try:
         png_files = [f for f in os.listdir('.') if f.endswith(('.png', '.PNG'))]
-        st.write(f"- PNG files found: `{png_files}`")
     except:
-        st.write("- Could not list directory files")
     
     try:
         from PIL import Image
