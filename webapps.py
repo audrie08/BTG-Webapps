@@ -8,8 +8,18 @@ st.set_page_config(
 )
 
 # Custom CSS styling
+# Custom CSS with modern UI design
 st.markdown("""
-<style>
+    <style>
+    /* Container styling */
+    .block-container {
+        max-width: 1450px;
+        padding-left: 5rem;
+        padding-right: 5rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
     /* Hide Streamlit default elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
