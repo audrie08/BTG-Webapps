@@ -27,46 +27,42 @@ def logo_to_base64(_img):
 
 @st.cache_resource(ttl=timedelta(hours=24))
 def load_logo(logo_path="cloudeats.png"):
-    """Load logo with caching
+    """
+    Load logo image and return its Base64-encoded string (cached for 24 hours).
     
     Args:
-        logo_path: Path to the logo PNG file (default: "cloudeats.png")
+        logo_path (str): Path to the logo PNG file (default: "cloudeats.png")
     
     Returns:
-        Base64 encoded string of the logo, or None if file not found
+        str | None: Base64-encoded string of the logo, or None if file not found or failed
     """
-    import os
+    try:
+        # Get absolute path
+        abs_path = os.path.abspath(logo_path)
         
-    # Get absolute path
-    abs_path = os.path.abspath(logo_path)
-    
-    # Check if file exists
-    if not os.path.exists(abs_path):
-        st.error(f"❌ File not found at: `{abs_path}`")
+        # Check if file exists
+        if not os.path.exists(abs_path):
+            st.error(f"❌ File not found at: `{abs_path}`")
+            return None
+        
+        # Check file permissions
+        if not os.access(abs_path, os.R_OK):
+            st.error(f"❌ No read permission for: `{abs_path}`")
+            return None
+                
+        # Try to open image
+        with Image.open(abs_path) as logo_img:
+            # Convert to base64
+            buffer = BytesIO()
+            logo_img.save(buffer, format="PNG")
+            encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
+            return encoded
+
+    except Exception as e:
+        st.error(f"❌ Error loading logo: {type(e).__name__}: {str(e)}")
+        import traceback
+        st.code(traceback.format_exc())
         return None
-    
-    # Check file permissions
-    if not os.access(abs_path, os.R_OK):
-        st.error(f"❌ No read permission for: `{abs_path}`")
-        return None
-            
-    # Try to open image
-    logo_img = Image.open(abs_path)
-    
-    # Convert to base64
-    result = logo_to_base64(logo_img)
-    
-    if result:
-        return result
-    else:
-        st.error("❌ Failed to convert image to base64")
-        return None
-    
-except Exception as e:
-    st.error(f"❌ Error loading logo: {type(e).__name__}: {str(e)}")
-    import traceback
-    st.code(traceback.format_exc())
-    return None
 
 def create_navigation(logo_path="cloudeats.png"):
     """Create a simple navigation header with logo and text
