@@ -37,36 +37,36 @@ def load_logo(logo_path="cloudeats.png"):
     """
     import os
         
-        # Get absolute path
-        abs_path = os.path.abspath(logo_path)
-        
-        # Check if file exists
-        if not os.path.exists(abs_path):
-            st.error(f"❌ File not found at: `{abs_path}`")
-            return None
-        
-        # Check file permissions
-        if not os.access(abs_path, os.R_OK):
-            st.error(f"❌ No read permission for: `{abs_path}`")
-            return None
-                
-        # Try to open image
-        logo_img = Image.open(abs_path)
-        
-        # Convert to base64
-        result = logo_to_base64(logo_img)
-        
-        if result:
-            return result
-        else:
-            st.error("❌ Failed to convert image to base64")
-            return None
-        
-    except Exception as e:
-        st.error(f"❌ Error loading logo: {type(e).__name__}: {str(e)}")
-        import traceback
-        st.code(traceback.format_exc())
+    # Get absolute path
+    abs_path = os.path.abspath(logo_path)
+    
+    # Check if file exists
+    if not os.path.exists(abs_path):
+        st.error(f"❌ File not found at: `{abs_path}`")
         return None
+    
+    # Check file permissions
+    if not os.access(abs_path, os.R_OK):
+        st.error(f"❌ No read permission for: `{abs_path}`")
+        return None
+            
+    # Try to open image
+    logo_img = Image.open(abs_path)
+    
+    # Convert to base64
+    result = logo_to_base64(logo_img)
+    
+    if result:
+        return result
+    else:
+        st.error("❌ Failed to convert image to base64")
+        return None
+    
+except Exception as e:
+    st.error(f"❌ Error loading logo: {type(e).__name__}: {str(e)}")
+    import traceback
+    st.code(traceback.format_exc())
+    return None
 
 def create_navigation(logo_path="cloudeats.png"):
     """Create a simple navigation header with logo and text
