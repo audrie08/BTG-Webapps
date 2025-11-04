@@ -6,6 +6,7 @@ matplotlib
 altair
 plotly
 openpyxl
+Pillow
 
 # Google Sheets / API
 gspread
