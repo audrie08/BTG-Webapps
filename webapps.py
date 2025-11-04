@@ -17,17 +17,13 @@ def logo_to_base64(img):
         buffered = BytesIO()
         img.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode()
-        print(f"DEBUG - Base64 encoding successful, length: {len(img_str)}")
         return img_str
     except Exception as e:
-        print(f"ERROR in logo_to_base64: {str(e)}")
-        import traceback
-        print(traceback.format_exc())
         return None
 
 @st.cache_resource(ttl=timedelta(hours=24))
 def load_logo(logo_path="cloudeats.png"):
-    """Load logo with caching and debug information
+    """Load logo with caching
     
     Args:
         logo_path: Path to the logo PNG file (default: "cloudeats.png")
@@ -45,21 +41,16 @@ def load_logo(logo_path="cloudeats.png"):
         
         # Check if file exists
         if not os.path.exists(abs_path):
-            print(f"ERROR - Logo file '{abs_path}' not found!")
-            print(f"Available files: {[f for f in files_in_dir if f.endswith(('.png', '.jpg', '.jpeg'))]}")
             return None
         
         # Check file permissions
         if not os.access(abs_path, os.R_OK):
-            print(f"ERROR - No read permission for '{abs_path}'")
             return None
             
         logo_img = Image.open(abs_path)
-        print(f"SUCCESS - Logo loaded: {logo_img.size}, {logo_img.format}, {logo_img.mode}")
         
         # Convert to RGB if necessary
         if logo_img.mode in ('RGBA', 'LA', 'P'):
-            print(f"Converting image from {logo_img.mode} to RGB")
             background = Image.new('RGB', logo_img.size, (255, 255, 255))
             if logo_img.mode == 'P':
                 logo_img = logo_img.convert('RGBA')
@@ -67,14 +58,9 @@ def load_logo(logo_path="cloudeats.png"):
             logo_img = background
         
         result = logo_to_base64(logo_img)
-        print(f"SUCCESS - Base64 conversion complete, length: {len(result)}")
         return result
         
     except Exception as e:
-        print(f"ERROR loading logo - Exception type: {type(e).__name__}")
-        print(f"ERROR message: {str(e)}")
-        import traceback
-        print(f"Traceback: {traceback.format_exc()}")
         return None
 
 def create_navigation(logo_path="cloudeats.png"):
@@ -89,26 +75,9 @@ def create_navigation(logo_path="cloudeats.png"):
     
     if logo_base64:
         logo_html = f'<img src="data:image/png;base64,{logo_base64}" alt="BTG Logo">'
-        st.success("✅ Logo loaded successfully!")
     else:
         # Fallback icon if logo file is not found
         logo_html = '<div class="brand-icon-fallback">🍽️</div>'
-        
-        # Show warning to user
-        import os
-        st.warning(f"""
-        ⚠️ Using fallback icon. Logo file issue detected.
-        
-        **Looking for:** `{logo_path}`
-        
-        **Current directory:** `{os.getcwd()}`
-        
-        **File exists:** {os.path.exists(logo_path)}
-        
-        **Available PNG files:** {[f for f in os.listdir('.') if f.endswith(('.png', '.PNG'))]}
-        
-        **Check Streamlit logs for detailed error information.**
-        """)
     
     # Simple navigation with logo and text
     st.markdown(f"""
@@ -128,22 +97,19 @@ def create_navigation(logo_path="cloudeats.png"):
     }}
     
     .brand-logo {{
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, #ffd700, #ffa500);
-        border-radius: 50%;
+        width: 70px;
+        height: 70px;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         flex-shrink: 0;
     }}
     
     .brand-logo img {{
-        width: 110%;
-        height: 110%;
-        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }}
     
     .brand-icon-fallback {{
@@ -152,7 +118,7 @@ def create_navigation(logo_path="cloudeats.png"):
     
     .brand-text {{
         font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-        font-size: 30px;
+        font-size: 24px;
         font-weight: 700;
         color: #ffffff;
         letter-spacing: -0.3px;
@@ -176,7 +142,7 @@ def create_navigation(logo_path="cloudeats.png"):
             <div class="brand-logo">
                 {logo_html}
             </div>
-            <div class="brand-text">Bites To Go - Consolidated Commissary Webapps</div>
+            <div class="brand-text">Bites To Go - Consolidated COmmissary Webapps</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -342,7 +308,7 @@ st.markdown("""
         width: 100% !important;
         text-decoration: none !important;
         display: inline-block !important;
-        text-align: left !important;
+        text-align: center !important;
     }
     
     div[data-testid="stLinkButton"] > a:hover {
