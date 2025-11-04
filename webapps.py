@@ -36,14 +36,6 @@ def load_logo(logo_path="cloudeats.png"):
         Base64 encoded string of the logo, or None if file not found
     """
     import os
-    
-    # List all PNG files
-    try:
-        png_files = [f for f in os.listdir('.') if f.endswith(('.png', '.PNG'))]
-    except:
-            st.error(f"⚠️ Error accessing directory: {e}")
-    try:
-        from PIL import Image
         
         # Get absolute path
         abs_path = os.path.abspath(logo_path)
