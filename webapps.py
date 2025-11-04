@@ -262,7 +262,7 @@ with col1:
                 <rect x="3" y="14" width="7" height="7" rx="1"/>
             </svg>
         </div>
-        <h2 class="app-title">2025 Commissary Dashboard</h2>
+        <h2 class="app-title">Commissary Dashboard</h2>
         <p class="app-description">Monitor KPI's, production details, machine utilization, and production schedules.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
