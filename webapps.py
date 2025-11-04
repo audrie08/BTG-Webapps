@@ -125,7 +125,7 @@ def create_navigation(logo_path="cloudeats.png"):
     <style>
     .modern-nav-container {{
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-        padding: 1.2rem 2rem;
+        padding: 1.5rem 2rem;
         margin: -1rem -1rem 2rem -1rem;
         box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -138,8 +138,8 @@ def create_navigation(logo_path="cloudeats.png"):
     }}
     
     .brand-logo {{
-        width: 55px;
-        height: 55px;
+        width: 70px;
+        height: 70px;
         background: linear-gradient(135deg, #ffd700, #ffa500);
         border-radius: 50%;
         display: flex;
@@ -151,8 +151,8 @@ def create_navigation(logo_path="cloudeats.png"):
     }}
     
     .brand-logo img {{
-        width: 100%;
-        height: 100%;
+        width: 110%;
+        height: 110%;
         object-fit: cover;
     }}
     
@@ -162,7 +162,7 @@ def create_navigation(logo_path="cloudeats.png"):
     
     .brand-text {{
         font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 700;
         color: #ffffff;
         letter-spacing: -0.3px;
@@ -175,8 +175,8 @@ def create_navigation(logo_path="cloudeats.png"):
         }}
         
         .brand-logo {{
-            width: 45px;
-            height: 45px;
+            width: 55px;
+            height: 55px;
         }}
     }}
     </style>
@@ -417,7 +417,7 @@ with col1:
                 <rect x="3" y="14" width="7" height="7" rx="1"/>
             </svg>
         </div>
-        <h2 class="app-title">2025 Commissary Dashboard</h2>
+        <h2 class="app-title">Commissary Dashboard</h2>
         <p class="app-description">Monitor KPI metrics, production details, machine utilization, and analyze production schedules.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
