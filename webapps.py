@@ -263,7 +263,7 @@ with col1:
             </svg>
         </div>
         <h2 class="app-title">2025 Commissary Dashboard</h2>
-        <p class="app-description">Monitor KPI metrics, production details, machine utilization, and analyze production schedules.</p>
+        <p class="app-description">Monitor KPI's, production details, machine utilization, and analyze production schedules.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
     """, unsafe_allow_html=True)
