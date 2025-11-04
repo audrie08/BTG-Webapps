@@ -49,14 +49,7 @@ def load_logo(logo_path="cloudeats.png"):
             
         logo_img = Image.open(abs_path)
         
-        # Convert to RGB if necessary
-        if logo_img.mode in ('RGBA', 'LA', 'P'):
-            background = Image.new('RGB', logo_img.size, (255, 255, 255))
-            if logo_img.mode == 'P':
-                logo_img = logo_img.convert('RGBA')
-            background.paste(logo_img, mask=logo_img.split()[-1] if logo_img.mode == 'RGBA' else None)
-            logo_img = background
-        
+        # Keep transparency - don't convert to RGB!
         result = logo_to_base64(logo_img)
         return result
         
@@ -79,7 +72,17 @@ def create_navigation(logo_path="cloudeats.png"):
         # Fallback icon if logo file is not found
         logo_html = '<div class="brand-icon-fallback">🍽️</div>'
     
-    # Simple navigation with logo and text
+    # Navigation header
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); padding: 1.5rem 2rem; margin: -1rem -1rem 2rem -1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                {logo_html}
+            </div>
+            <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 24px; font-weight: 700; color: #ffffff; letter-spacing: -0.3px;">Bites To Go - Consolidated Commissary Webapps</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown(f"""
     <style>
     .modern-nav-container {{
@@ -142,7 +145,7 @@ def create_navigation(logo_path="cloudeats.png"):
             <div class="brand-logo">
                 {logo_html}
             </div>
-            <div class="brand-text">Bites To Go - Consolidated COmmissary Webapps</div>
+            <div class="brand-text">Bites To Go - Webapps</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -373,7 +376,7 @@ with col1:
                 <rect x="3" y="14" width="7" height="7" rx="1"/>
             </svg>
         </div>
-        <h2 class="app-title">Commissary Dashboard</h2>
+        <h2 class="app-title">2025 Commissary Dashboard</h2>
         <p class="app-description">Monitor KPI metrics, production details, machine utilization, and analyze production schedules.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
