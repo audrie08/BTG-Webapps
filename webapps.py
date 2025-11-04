@@ -1,4 +1,7 @@
 import streamlit as st
+from datetime import timedelta
+import base64
+from io import BytesIO
 
 # Page configuration
 st.set_page_config(
@@ -7,10 +10,121 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS styling
-# Custom CSS with modern UI design
-st.markdown("""
+@st.cache_data(ttl=timedelta(hours=1))
+def logo_to_base64(img):
+    """Convert PIL Image to base64 string with caching"""
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    return img_str
+
+@st.cache_resource(ttl=timedelta(hours=24))
+def load_logo(logo_path="cloudeats.png"):
+    """Load logo with caching
+    
+    Args:
+        logo_path: Path to the logo PNG file (default: "cloudeats.png")
+    
+    Returns:
+        Base64 encoded string of the logo, or None if file not found
+    """
+    try:
+        from PIL import Image
+        logo_img = Image.open(logo_path)
+        return logo_to_base64(logo_img)
+    except FileNotFoundError:
+        return None
+
+def create_navigation(logo_path="cloudeats.png"):
+    """Create a simple navigation header with logo and text
+    
+    Args:
+        logo_path: Path to your logo PNG file
+    """
+    
+    # Load logo with caching
+    logo_base64 = load_logo(logo_path)
+    
+    if logo_base64:
+        logo_html = f'<img src="data:image/png;base64,{logo_base64}" alt="BTG Logo">'
+    else:
+        # Fallback icon if logo file is not found
+        logo_html = '<div class="brand-icon-fallback">🍽️</div>'
+    
+    # Simple navigation with logo and text
+    st.markdown(f"""
     <style>
+    .modern-nav-container {{
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        padding: 1.2rem 2rem;
+        margin: -1rem -1rem 2rem -1rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }}
+    
+    .nav-content {{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }}
+    
+    .brand-logo {{
+        width: 55px;
+        height: 55px;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        flex-shrink: 0;
+    }}
+    
+    .brand-logo img {{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }}
+    
+    .brand-icon-fallback {{
+        font-size: 28px;
+    }}
+    
+    .brand-text {{
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: -0.3px;
+        line-height: 1.2;
+    }}
+    
+    @media (max-width: 768px) {{
+        .brand-text {{
+            font-size: 18px;
+        }}
+        
+        .brand-logo {{
+            width: 45px;
+            height: 45px;
+        }}
+    }}
+    </style>
+    
+    <div class="modern-nav-container">
+        <div class="nav-content">
+            <div class="brand-logo">
+                {logo_html}
+            </div>
+            <div class="brand-text">Bites To Go - Webapps</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Custom CSS styling
+st.markdown("""
+<style>
     /* Container styling */
     .block-container {
         max-width: 1490px;
@@ -19,7 +133,7 @@ st.markdown("""
         padding-top: 1rem;
         padding-bottom: 1rem;
     }
-
+    
     /* Hide Streamlit default elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
@@ -32,38 +146,6 @@ st.markdown("""
     .stApp {
         background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
         font-family: 'Inter', sans-serif;
-    }
-    
-    /* Custom styling for the page */
-    .main-header {
-        text-align: center;
-        padding: 80px 20px 60px 20px;
-        position: relative;
-    }
-    
-    .main-title {
-        font-size: 3.8em;
-        font-weight: 800;
-        letter-spacing: -3px;
-        color: #1a1a1a;
-        margin-bottom: 20px;
-        line-height: 1.1;
-    }
-    
-    .main-subtitle {
-        font-size: 1.4em;
-        color: #666666;
-        font-weight: 400;
-        letter-spacing: 0.5px;
-    }
-    
-    /* Accent line under header */
-    .accent-line {
-        width: 80px;
-        height: 4px;
-        background: linear-gradient(90deg, #FFD700, #FFA500);
-        margin: 30px auto;
-        border-radius: 2px;
     }
     
     /* Card styling */
@@ -248,14 +330,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Header
-st.markdown("""
-<div class="main-header">
-    <h1 class="main-title">BTG Commissary Webapps</h1>
-    <div class="accent-line"></div>
-    <p class="main-subtitle">Consolidated Website for Commissary Operations</p>
-</div>
-""", unsafe_allow_html=True)
+# Create navigation header
+create_navigation()
 
 # Create four columns for the app cards
 col1, col2, col3, col4 = st.columns(4, gap="large")
@@ -272,8 +348,8 @@ with col1:
                 <rect x="3" y="14" width="7" height="7" rx="1"/>
             </svg>
         </div>
-        <h2 class="app-title">Commissary Dashboard</h2>
-        <p class="app-description">Monitor KPI metrics, subrecipe details, production details, machine utilization, and production sequence.</p>
+        <h2 class="app-title">2025 Commissary Dashboard</h2>
+        <p class="app-description">Monitor KPI metrics, production details, machine utilization, and analyze production schedules.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
     """, unsafe_allow_html=True)
@@ -293,7 +369,7 @@ with col2:
             </svg>
         </div>
         <h2 class="app-title">Subrecipe Guide</h2>
-        <p class="app-description">Access subrecipe details, daily/weekly inventory tracking and complete raw materials explosion data.</p>
+        <p class="app-description">Access subrecipe details with inventory tracking and complete raw materials explosion data.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
     """, unsafe_allow_html=True)
