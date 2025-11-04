@@ -263,12 +263,12 @@ with col1:
             </svg>
         </div>
         <h2 class="app-title">2025 Commissary Dashboard</h2>
-        <p class="app-description">Comprehensive KPI Dashboard featuring subrecipe guide, production details, machine utilization, YTD production schedule, and production sequence analytics.</p>
+        <p class="app-description">Monitor KPI metrics, production details, machine utilization, and analyze production schedules.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
     """, unsafe_allow_html=True)
     
-    st.link_button("Launch App →", "https://btg-commi.streamlit.app/", use_container_width=True)
+    st.link_button("Open App →", "https://btg-commi.streamlit.app/", use_container_width=True)
 
 # Subrecipe Guide Card
 with col2:
@@ -283,12 +283,12 @@ with col2:
             </svg>
         </div>
         <h2 class="app-title">Subrecipe Guide</h2>
-        <p class="app-description">Access detailed subrecipe information with weekly and daily inventory tracking. Complete raw materials explosion for production planning.</p>
+        <p class="app-description">Access subrecipe details with inventory tracking and complete raw materials explosion data.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
     """, unsafe_allow_html=True)
     
-    st.link_button("Launch App →", "https://btg-subrecipe-guide.streamlit.app/", use_container_width=True)
+    st.link_button("Open App →", "https://btg-subrecipe-guide.streamlit.app/", use_container_width=True)
 
 # Asset Tagging Card
 with col3:
@@ -301,12 +301,12 @@ with col3:
             </svg>
         </div>
         <h2 class="app-title">Asset Tagging</h2>
-        <p class="app-description">Efficiently track and manage all commissary assets including tools and equipment with comprehensive tagging system.</p>
+        <p class="app-description">Track and manage commissary assets including tools, equipment with comprehensive tagging.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
     """, unsafe_allow_html=True)
     
-    st.link_button("Launch App →", "https://btg-asset-tagging.streamlit.app/", use_container_width=True)
+    st.link_button("Open App →", "https://btg-asset-tagging.streamlit.app/", use_container_width=True)
 
 # BOM Explosion Card
 with col4:
@@ -318,12 +318,12 @@ with col4:
             </svg>
         </div>
         <h2 class="app-title">BOM Explosion</h2>
-        <p class="app-description">Explode Bill of Materials to analyze component structures and material requirements for production optimization.</p>
+        <p class="app-description">Explode Bill of Materials to view component structures and material requirements efficiently.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
     """, unsafe_allow_html=True)
     
-    st.link_button("Launch App →", "https://btg-bom-explosion.streamlit.app/", use_container_width=True)
+    st.link_button("Open App →", "https://btg-bom-explosion.streamlit.app/", use_container_width=True)
 
 # Footer
 st.markdown("""
