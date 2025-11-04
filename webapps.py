@@ -17,8 +17,10 @@ def logo_to_base64(img):
         buffered = BytesIO()
         img.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode()
+        st.info(f"✅ Base64 conversion successful! Length: {len(img_str)} characters")
         return img_str
     except Exception as e:
+        st.error(f"❌ Base64 conversion failed: {str(e)}")
         return None
 
 @st.cache_resource(ttl=timedelta(hours=24))
@@ -33,6 +35,21 @@ def load_logo(logo_path="cloudeats.png"):
     """
     import os
     
+    # Debug info
+    current_dir = os.getcwd()
+    st.info(f"🔍 **Debug Info:**")
+    st.write(f"- Current directory: `{current_dir}`")
+    st.write(f"- Looking for: `{logo_path}`")
+    st.write(f"- Absolute path: `{os.path.abspath(logo_path)}`")
+    st.write(f"- File exists: **{os.path.exists(logo_path)}**")
+    
+    # List all PNG files
+    try:
+        png_files = [f for f in os.listdir('.') if f.endswith(('.png', '.PNG'))]
+        st.write(f"- PNG files found: `{png_files}`")
+    except:
+        st.write("- Could not list directory files")
+    
     try:
         from PIL import Image
         
@@ -41,19 +58,34 @@ def load_logo(logo_path="cloudeats.png"):
         
         # Check if file exists
         if not os.path.exists(abs_path):
+            st.error(f"❌ File not found at: `{abs_path}`")
             return None
         
         # Check file permissions
         if not os.access(abs_path, os.R_OK):
+            st.error(f"❌ No read permission for: `{abs_path}`")
             return None
-            
-        logo_img = Image.open(abs_path)
         
-        # Keep transparency - don't convert to RGB!
+        st.success(f"✅ File found and readable!")
+        
+        # Try to open image
+        logo_img = Image.open(abs_path)
+        st.success(f"✅ Image loaded! Size: {logo_img.size}, Mode: {logo_img.mode}, Format: {logo_img.format}")
+        
+        # Convert to base64
         result = logo_to_base64(logo_img)
+        
+        if result:
+            st.success(f"🎉 Logo loaded successfully!")
+        else:
+            st.error(f"❌ Failed to convert to base64")
+        
         return result
         
     except Exception as e:
+        st.error(f"❌ Error loading logo: {type(e).__name__}: {str(e)}")
+        import traceback
+        st.code(traceback.format_exc())
         return None
 
 def create_navigation(logo_path="cloudeats.png"):
@@ -63,14 +95,21 @@ def create_navigation(logo_path="cloudeats.png"):
         logo_path: Path to your logo PNG file
     """
     
+    st.write("---")
+    st.subheader("🔧 Logo Loading Debug")
+    
     # Load logo with caching
     logo_base64 = load_logo(logo_path)
     
     if logo_base64:
+        st.success(f"✅ Logo is ready to display! Base64 string length: {len(logo_base64)}")
         logo_html = f'<img src="data:image/png;base64,{logo_base64}" alt="BTG Logo" style="width: 100%; height: 100%; object-fit: contain;">'
     else:
+        st.warning("⚠️ Logo failed to load - using fallback emoji")
         # Fallback icon if logo file is not found
         logo_html = '<div style="font-size: 28px;">🍽️</div>'
+    
+    st.write("---")
     
     # Navigation header
     st.markdown(f"""
