@@ -68,10 +68,10 @@ def load_logo(logo_path="cloudeats.png"):
         result = logo_to_base64(logo_img)
         
         if result:
+            return result
         else:
-            st.error(f"❌ Failed to convert to base64")
-        
-        return result
+            st.error("❌ Failed to convert image to base64")
+            return None
         
     except Exception as e:
         st.error(f"❌ Error loading logo: {type(e).__name__}: {str(e)}")
