@@ -67,25 +67,15 @@ def create_navigation(logo_path="cloudeats.png"):
     logo_base64 = load_logo(logo_path)
     
     if logo_base64:
-        logo_html = f'<img src="data:image/png;base64,{logo_base64}" alt="BTG Logo">'
+        logo_html = f'<img src="data:image/png;base64,{logo_base64}" alt="BTG Logo" style="width: 100%; height: 100%; object-fit: contain;">'
     else:
         # Fallback icon if logo file is not found
-        logo_html = '<div class="brand-icon-fallback">🍽️</div>'
+        logo_html = '<div style="font-size: 28px;">🍽️</div>'
     
     # Navigation header
     st.markdown(f"""
-    <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); padding: 1.5rem 2rem; margin: -1rem -1rem 2rem -1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1);">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                {logo_html}
-            </div>
-            <div style="font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 24px; font-weight: 700; color: #ffffff; letter-spacing: -0.3px;">Bites To Go - Consolidated Commissary Webapps</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown(f"""
     <style>
-    .modern-nav-container {{
+    .nav-header {{
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
         padding: 1.5rem 2rem;
         margin: -1rem -1rem 2rem -1rem;
@@ -99,27 +89,16 @@ def create_navigation(logo_path="cloudeats.png"):
         gap: 20px;
     }}
     
-    .brand-logo {{
+    .logo-container {{
         width: 70px;
         height: 70px;
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow: hidden;
         flex-shrink: 0;
     }}
     
-    .brand-logo img {{
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }}
-    
-    .brand-icon-fallback {{
-        font-size: 28px;
-    }}
-    
-    .brand-text {{
+    .nav-title {{
         font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
         font-size: 24px;
         font-weight: 700;
@@ -129,23 +108,23 @@ def create_navigation(logo_path="cloudeats.png"):
     }}
     
     @media (max-width: 768px) {{
-        .brand-text {{
+        .nav-title {{
             font-size: 18px;
         }}
         
-        .brand-logo {{
+        .logo-container {{
             width: 55px;
             height: 55px;
         }}
     }}
     </style>
     
-    <div class="modern-nav-container">
+    <div class="nav-header">
         <div class="nav-content">
-            <div class="brand-logo">
+            <div class="logo-container">
                 {logo_html}
             </div>
-            <div class="brand-text">Bites To Go - Webapps</div>
+            <div class="nav-title">Bites To Go - Consolidated Commissary Webapps</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -334,25 +313,15 @@ st.markdown("""
         font-weight: 400;
     }
     
-    /* Remove padding from columns */
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-    
     /* Responsive design */
     @media (max-width: 768px) {
-        .main-title {
-            font-size: 2.5em;
-            letter-spacing: -2px;
-        }
-        
-        .main-subtitle {
-            font-size: 1.1em;
-        }
-        
         .app-card {
             padding: 35px 25px;
+        }
+        
+        .block-container {
+            padding-left: 2rem;
+            padding-right: 2rem;
         }
     }
 </style>
