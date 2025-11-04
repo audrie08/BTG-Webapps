@@ -41,7 +41,7 @@ def load_logo(logo_path="cloudeats.png"):
     try:
         png_files = [f for f in os.listdir('.') if f.endswith(('.png', '.PNG'))]
     except:
-    
+            st.error(f"⚠️ Error accessing directory: {e}")
     try:
         from PIL import Image
         
