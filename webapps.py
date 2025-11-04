@@ -103,7 +103,8 @@ st.markdown("""
     }
     
     /* Button styling */
-    .stButton > button {
+    .stButton > button,
+    a[kind="primary"] {
         background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
         color: #1a1a1a !important;
         border: none !important;
@@ -113,10 +114,36 @@ st.markdown("""
         font-size: 1.05em !important;
         transition: all 0.3s ease !important;
         box-shadow: 0 8px 25px rgba(255, 215, 0, 0.25) !important;
-        width: 100%;
+        width: 100% !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        text-align: center !important;
     }
     
-    .stButton > button:hover {
+    .stButton > button:hover,
+    a[kind="primary"]:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 12px 35px rgba(255, 215, 0, 0.35) !important;
+    }
+    
+    /* Style for link buttons specifically */
+    div[data-testid="stLinkButton"] > a {
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
+        color: #1a1a1a !important;
+        border: none !important;
+        padding: 14px 35px !important;
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        font-size: 1.05em !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.25) !important;
+        width: 100% !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        text-align: center !important;
+    }
+    
+    div[data-testid="stLinkButton"] > a:hover {
         transform: translateY(-2px) !important;
         box-shadow: 0 12px 35px rgba(255, 215, 0, 0.35) !important;
     }
@@ -145,8 +172,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Create three columns for the app cards
-col1, col2, col3 = st.columns(3)
+# Create four columns for the app cards
+col1, col2, col3, col4 = st.columns(4)
 
 # Commission Calculator Card
 with col1:
@@ -159,9 +186,7 @@ with col1:
     </div>
     """, unsafe_allow_html=True)
     
-    if st.button("Launch App →", key="btn1"):
-        st.markdown('<meta http-equiv="refresh" content="0; url=https://btg-commi.streamlit.app/" />', unsafe_allow_html=True)
-        st.write("[Click here if not redirected](https://btg-commi.streamlit.app/)")
+    st.link_button("Launch App →", "https://btg-commi.streamlit.app/", use_container_width=True)
 
 # Subrecipe Guide Card
 with col2:
@@ -174,9 +199,7 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
     
-    if st.button("Launch App →", key="btn2"):
-        st.markdown('<meta http-equiv="refresh" content="0; url=https://btg-subrecipe-guide.streamlit.app/" />', unsafe_allow_html=True)
-        st.write("[Click here if not redirected](https://btg-subrecipe-guide.streamlit.app/)")
+    st.link_button("Launch App →", "https://btg-subrecipe-guide.streamlit.app/", use_container_width=True)
 
 # Asset Tagging Card
 with col3:
@@ -189,10 +212,20 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
     
-    if st.button("Launch App →", key="btn3"):
-        st.markdown('<meta http-equiv="refresh" content="0; url=https://btg-asset-tagging.streamlit.app/" />', unsafe_allow_html=True)
-        st.write("[Click here if not redirected](https://btg-asset-tagging.streamlit.app/)")
+    st.link_button("Launch App →", "https://btg-asset-tagging.streamlit.app/", use_container_width=True)
 
+# BOM Explosion Card
+with col4:
+    st.markdown("""
+    <div class="app-card">
+        <div class="app-icon">💥</div>
+        <h2 class="app-title">BOM Explosion</h2>
+        <p class="app-description">Explode Bill of Materials to view component breakdowns. Analyze product structures and material requirements efficiently.</p>
+        <span class="status-badge">Active</span>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.link_button("Launch App →", "https://btg-bom-explosion.streamlit.app/", use_container_width=True)
 # Footer
 st.markdown("""
 <div class="custom-footer">
