@@ -38,14 +38,6 @@ def load_logo(logo_path="cloudeats.png"):
     """
     import os
     
-    # Debug info
-    current_dir = os.getcwd()
-    st.info(f"🔍 **Debug Info:**")
-    st.write(f"- Current directory: `{current_dir}`")
-    st.write(f"- Looking for: `{logo_path}`")
-    st.write(f"- Absolute path: `{os.path.abspath(logo_path)}`")
-    st.write(f"- File exists: **{os.path.exists(logo_path)}**")
-    
     # List all PNG files
     try:
         png_files = [f for f in os.listdir('.') if f.endswith(('.png', '.PNG'))]
@@ -99,7 +91,6 @@ def create_navigation(logo_path="cloudeats.png"):
     """
     
     st.write("---")
-    st.subheader("🔧 Logo Loading Debug")
     
     # Load logo with caching
     logo_base64 = load_logo(logo_path)
