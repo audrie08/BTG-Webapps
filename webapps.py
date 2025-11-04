@@ -2,8 +2,7 @@ import streamlit as st
 
 # Page configuration
 st.set_page_config(
-    page_title="BTG Apps Hub",
-    page_icon="🚀",
+    page_title="BTG Commissary Webapps",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -140,7 +139,7 @@ st.markdown("""
         width: 100% !important;
         text-decoration: none !important;
         display: inline-block !important;
-        text-align: center !important;
+        text-align: left !important;
     }
     
     div[data-testid="stLinkButton"] > a:hover {
@@ -167,8 +166,8 @@ st.markdown("""
 # Header
 st.markdown("""
 <div class="main-header">
-    <h1 class="main-title">🚀 BTG Apps Hub</h1>
-    <p class="main-subtitle">Your Complete Business Operations Toolkit</p>
+    <h1 class="main-title">BTG Commissary Webappsb</h1>
+    <p class="main-subtitle">Consolidated Website for Commissary Operations</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -180,8 +179,8 @@ with col1:
     st.markdown("""
     <div class="app-card">
         <div class="app-icon">💰</div>
-        <h2 class="app-title">Commission Calculator</h2>
-        <p class="app-description">Calculate commissions accurately and efficiently. Track sales performance and generate detailed commission reports for your team.</p>
+        <h2 class="app-title">2025 Commissary Dashboard</h2>
+        <p class="app-description">2025 Commissary KPI Dashbaord, Subrecipe Guide, Production Details, Machine Utilizaztion, YTD Production Schedule, & Production Sequence  </p>
         <span class="status-badge">Active</span>
     </div>
     """, unsafe_allow_html=True)
@@ -194,7 +193,7 @@ with col2:
     <div class="app-card">
         <div class="app-icon">📋</div>
         <h2 class="app-title">Subrecipe Guide</h2>
-        <p class="app-description">Manage recipes, ingredients, and subrecipes with ease. Perfect for food service operations and kitchen management systems.</p>
+        <p class="app-description">Subrecipe Details and Weekly and Daily Inventory Raw Materials Explosion</p>
         <span class="status-badge">Active</span>
     </div>
     """, unsafe_allow_html=True)
@@ -207,7 +206,7 @@ with col3:
     <div class="app-card">
         <div class="app-icon">🏷️</div>
         <h2 class="app-title">Asset Tagging</h2>
-        <p class="app-description">Track and manage your business assets efficiently. Tag, categorize, and monitor all your physical and digital assets in one place.</p>
+        <p class="app-description">Track and manage your commissary assets (tools & equipments).</p>
         <span class="status-badge">Active</span>
     </div>
     """, unsafe_allow_html=True)
@@ -220,7 +219,7 @@ with col4:
     <div class="app-card">
         <div class="app-icon">💥</div>
         <h2 class="app-title">BOM Explosion</h2>
-        <p class="app-description">Explode Bill of Materials to view component breakdowns. Analyze product structures and material requirements efficiently.</p>
+        <p class="app-description">Explode Bill of Materials.</p>
         <span class="status-badge">Active</span>
     </div>
     """, unsafe_allow_html=True)
