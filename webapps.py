@@ -3,6 +3,7 @@ from datetime import timedelta
 import base64
 import os
 from io import BytesIO
+from PIL import Image
 
 # Page configuration
 st.set_page_config(
@@ -10,21 +11,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
-@st.cache_data(ttl=timedelta(hours=1))
-def logo_to_base64(_img):
-    """Convert PIL Image to base64 string with caching
-    
-    Note: _img has underscore prefix so Streamlit won't try to hash the PIL Image object
-    """
-    try:
-        buffered = BytesIO()
-        _img.save(buffered, format="PNG")
-        img_str = base64.b64encode(buffered.getvalue()).decode()
-        return img_str
-    except Exception as e:
-        st.error(f"❌ Base64 conversion failed: {str(e)}")
-        return None
 
 @st.cache_resource(ttl=timedelta(hours=24))
 def load_logo(logo_path="cloudeats.png"):
@@ -43,26 +29,20 @@ def load_logo(logo_path="cloudeats.png"):
         
         # Check if file exists
         if not os.path.exists(abs_path):
-            st.error(f"❌ File not found at: `{abs_path}`")
             return None
         
         # Check file permissions
         if not os.access(abs_path, os.R_OK):
-            st.error(f"❌ No read permission for: `{abs_path}`")
             return None
                 
-        # Try to open image
+        # Open and convert image to base64
         with Image.open(abs_path) as logo_img:
-            # Convert to base64
             buffer = BytesIO()
             logo_img.save(buffer, format="PNG")
             encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
             return encoded
 
     except Exception as e:
-        st.error(f"❌ Error loading logo: {type(e).__name__}: {str(e)}")
-        import traceback
-        st.code(traceback.format_exc())
         return None
 
 def create_navigation(logo_path="cloudeats.png"):
@@ -72,19 +52,14 @@ def create_navigation(logo_path="cloudeats.png"):
         logo_path: Path to your logo PNG file
     """
     
-    st.write("---")
-    
     # Load logo with caching
     logo_base64 = load_logo(logo_path)
     
     if logo_base64:
         logo_html = f'<img src="data:image/png;base64,{logo_base64}" alt="BTG Logo" style="width: 100%; height: 100%; object-fit: contain;">'
     else:
-        st.warning("⚠️ Logo failed to load - using fallback emoji")
         # Fallback icon if logo file is not found
         logo_html = '<div style="font-size: 28px;">🍽️</div>'
-    
-    st.write("---")
     
     # Navigation header
     st.markdown(f"""
