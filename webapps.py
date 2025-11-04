@@ -60,18 +60,14 @@ def load_logo(logo_path="cloudeats.png"):
         if not os.access(abs_path, os.R_OK):
             st.error(f"❌ No read permission for: `{abs_path}`")
             return None
-        
-        st.success(f"✅ File found and readable!")
-        
+                
         # Try to open image
         logo_img = Image.open(abs_path)
-        st.success(f"✅ Image loaded! Size: {logo_img.size}, Mode: {logo_img.mode}, Format: {logo_img.format}")
         
         # Convert to base64
         result = logo_to_base64(logo_img)
         
         if result:
-            st.success(f"🎉 Logo loaded successfully!")
         else:
             st.error(f"❌ Failed to convert to base64")
         
@@ -96,7 +92,6 @@ def create_navigation(logo_path="cloudeats.png"):
     logo_base64 = load_logo(logo_path)
     
     if logo_base64:
-        st.success(f"✅ Logo is ready to display! Base64 string length: {len(logo_base64)}")
         logo_html = f'<img src="data:image/png;base64,{logo_base64}" alt="BTG Logo" style="width: 100%; height: 100%; object-fit: contain;">'
     else:
         st.warning("⚠️ Logo failed to load - using fallback emoji")
