@@ -13,10 +13,17 @@ st.set_page_config(
 @st.cache_data(ttl=timedelta(hours=1))
 def logo_to_base64(img):
     """Convert PIL Image to base64 string with caching"""
-    buffered = BytesIO()
-    img.save(buffered, format="PNG")
-    img_str = base64.b64encode(buffered.getvalue()).decode()
-    return img_str
+    try:
+        buffered = BytesIO()
+        img.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+        print(f"DEBUG - Base64 encoding successful, length: {len(img_str)}")
+        return img_str
+    except Exception as e:
+        print(f"ERROR in logo_to_base64: {str(e)}")
+        import traceback
+        print(traceback.format_exc())
+        return None
 
 @st.cache_resource(ttl=timedelta(hours=24))
 def load_logo(logo_path="cloudeats.png"):
@@ -38,22 +45,46 @@ def load_logo(logo_path="cloudeats.png"):
     print(f"DEBUG - Files in directory: {files_in_dir}")
     print(f"DEBUG - Looking for logo: {logo_path}")
     print(f"DEBUG - Logo file exists: {os.path.exists(logo_path)}")
+    print(f"DEBUG - Full path: {os.path.abspath(logo_path)}")
     
     try:
         from PIL import Image
         
+        # Get absolute path
+        abs_path = os.path.abspath(logo_path)
+        
         # Check if file exists
-        if not os.path.exists(logo_path):
-            print(f"ERROR - Logo file '{logo_path}' not found!")
+        if not os.path.exists(abs_path):
+            print(f"ERROR - Logo file '{abs_path}' not found!")
             print(f"Available files: {[f for f in files_in_dir if f.endswith(('.png', '.jpg', '.jpeg'))]}")
             return None
+        
+        # Check file permissions
+        if not os.access(abs_path, os.R_OK):
+            print(f"ERROR - No read permission for '{abs_path}'")
+            return None
             
-        logo_img = Image.open(logo_path)
-        print(f"SUCCESS - Logo loaded: {logo_img.size}, {logo_img.format}")
-        return logo_to_base64(logo_img)
+        logo_img = Image.open(abs_path)
+        print(f"SUCCESS - Logo loaded: {logo_img.size}, {logo_img.format}, {logo_img.mode}")
+        
+        # Convert to RGB if necessary
+        if logo_img.mode in ('RGBA', 'LA', 'P'):
+            print(f"Converting image from {logo_img.mode} to RGB")
+            background = Image.new('RGB', logo_img.size, (255, 255, 255))
+            if logo_img.mode == 'P':
+                logo_img = logo_img.convert('RGBA')
+            background.paste(logo_img, mask=logo_img.split()[-1] if logo_img.mode == 'RGBA' else None)
+            logo_img = background
+        
+        result = logo_to_base64(logo_img)
+        print(f"SUCCESS - Base64 conversion complete, length: {len(result)}")
+        return result
         
     except Exception as e:
-        print(f"ERROR loading logo: {str(e)}")
+        print(f"ERROR loading logo - Exception type: {type(e).__name__}")
+        print(f"ERROR message: {str(e)}")
+        import traceback
+        print(f"Traceback: {traceback.format_exc()}")
         return None
 
 def create_navigation(logo_path="cloudeats.png"):
@@ -68,20 +99,25 @@ def create_navigation(logo_path="cloudeats.png"):
     
     if logo_base64:
         logo_html = f'<img src="data:image/png;base64,{logo_base64}" alt="BTG Logo">'
+        st.success("✅ Logo loaded successfully!")
     else:
         # Fallback icon if logo file is not found
         logo_html = '<div class="brand-icon-fallback">🍽️</div>'
         
         # Show warning to user
         import os
-        st.error(f"""
-        ⚠️ Logo file not found: `{logo_path}`
+        st.warning(f"""
+        ⚠️ Using fallback icon. Logo file issue detected.
+        
+        **Looking for:** `{logo_path}`
         
         **Current directory:** `{os.getcwd()}`
         
+        **File exists:** {os.path.exists(logo_path)}
+        
         **Available PNG files:** {[f for f in os.listdir('.') if f.endswith(('.png', '.PNG'))]}
         
-        **Note:** Check if the filename is exactly `cloudeats.png` (no spaces!)
+        **Check Streamlit logs for detailed error information.**
         """)
     
     # Simple navigation with logo and text
