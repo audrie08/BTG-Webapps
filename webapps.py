@@ -283,7 +283,7 @@ with col2:
             </svg>
         </div>
         <h2 class="app-title">Subrecipe Guide</h2>
-        <p class="app-description">Access subrecipe details with daily and weekly nventory tracking and complete raw materials explosion data.</p>
+        <p class="app-description">Access subrecipe details, daily/weekly inventory tracking and complete raw materials explosion data.</p>
         <span class="status-badge">● ACTIVE</span>
     </div>
     """, unsafe_allow_html=True)
