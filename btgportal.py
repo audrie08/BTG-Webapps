@@ -7,7 +7,7 @@ from PIL import Image
 
 # Page configuration
 st.set_page_config(
-    page_title="BTG Commissary Webapps",
+    page_title="BTG Commissary Portal",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -113,7 +113,7 @@ def create_navigation(logo_path="cloudeats.png"):
             <div class="logo-container">
                 {logo_html}
             </div>
-            <div class="nav-title">Bites To Go - Consolidated Commissary Webapps</div>
+            <div class="nav-title">Bites To Go - Consolidated Commissary Portals</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
