@@ -113,7 +113,7 @@ def create_navigation(logo_path="cloudeats.png"):
             <div class="logo-container">
                 {logo_html}
             </div>
-            <div class="nav-title">Bites To Go - Consolidated Commissary Portals</div>
+            <div class="nav-title">Bites To Go - Portal</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
